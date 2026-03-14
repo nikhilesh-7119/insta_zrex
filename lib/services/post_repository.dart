@@ -102,6 +102,32 @@ class PostRepository {
     'Keep your face always toward the sunshine ☀️ and shadows will fall behind you.',
   ];
 
+  static const List<String?> _audioInfos = [
+    'Original Audio',
+    'Shashwat Sachdev, Hanumankind...',
+    'Original Audio',
+    null,
+    'Christopher Lennertz • I Can Do An...',
+    null,
+    'Rodrigo Amarante • Tuyo',
+    'Farazi • Dobro Vecer',
+    null,
+    'Original Audio',
+  ];
+
+  static const List<String> _likedByUsers = [
+    'prependrasingh',
+    'dheeru_chowdary',
+    'rrjjtt.y',
+    'nature.vibes',
+    'travel_with_alex',
+    'cityscape.daily',
+    'foodie.tales',
+    'mountain.hike',
+    'ocean.breeze',
+    'urban.explorer',
+  ];
+
   static const List<String?> _locations = [
     'Swiss Alps, Switzerland',
     'Tokyo, Japan',
@@ -170,6 +196,8 @@ class PostRepository {
     final location = _locations[absoluteIndex % _locations.length];
     final timeAgo = _timeAgo[absoluteIndex % _timeAgo.length];
     final imageUrls = _imageUrlsForPost(absoluteIndex);
+    final audioInfo = _audioInfos[absoluteIndex % _audioInfos.length];
+    final likedByUser = _likedByUsers[absoluteIndex % _likedByUsers.length];
 
     return PostModel(
       id: 'post_$absoluteIndex',
@@ -187,6 +215,12 @@ class PostRepository {
       isLiked: false,
       isSaved: false,
       location: location,
+      audioInfo: audioInfo,
+      likedByUser: likedByUser,
+      likedByAvatars: [
+        'https://i.pravatar.cc/150?img=${(absoluteIndex * 3 + 5) % 70 + 1}',
+        'https://i.pravatar.cc/150?img=${(absoluteIndex * 7 + 11) % 70 + 1}',
+      ],
     );
   }
 

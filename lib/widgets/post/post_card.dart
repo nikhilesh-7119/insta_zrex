@@ -22,7 +22,7 @@ class PostCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header: avatar + username + options
+        // Header: avatar + username + audio/location + options
         PostHeader(post: post),
 
         // Media: image or carousel
@@ -33,14 +33,14 @@ class PostCard extends StatelessWidget {
 
         const SizedBox(height: AppConstants.paddingXS),
 
-        // Actions: like, comment, share, save
+        // Actions: like+count, comment+count, share | save
         PostActions(
           post: post,
           onLike: () => controller.toggleLike(post.id),
           onSave: () => controller.toggleSave(post.id),
         ),
 
-        // Likes count + caption + comments link + timestamp
+        // "Liked by username and others"  +  caption
         PostMeta(post: post),
         const SizedBox(height: AppConstants.paddingXS),
         PostCaption(post: post),

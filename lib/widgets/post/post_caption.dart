@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../app/colors/app_colors.dart';
@@ -97,16 +98,55 @@ class PostMeta extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Likes count
-          Text(
-            '${_formatCount(post.likesCount)} likes',
-            style: TextStyle(
-              fontSize: AppConstants.fontSizeM,
-              fontWeight: AppConstants.fontWeightSemiBold,
-              color: textColor,
+          // "Liked by username and others" with avatar thumbnails
+          if (post.likedByUser != null && post.likedByUser!.isNotEmpty)
+            Row(
+              children: [
+                // Two overlapping small avatars
+                if (post.likedByAvatars.isNotEmpty)
+                  SizedBox(
+                    width: post.likedByAvatars.length >= 2 ? 36 : 18,
+                    height: 18,
+                    child: Stack(
+                      children: [
+                        if (post.likedByAvatars.length >= 2)
+                          Positioned(
+                            left: 14,
+                            child: _LikedAvatar(url: post.likedByAvatars[1]),
+                          ),
+                        Positioned(
+                          left: 0,
+                          child: _LikedAvatar(url: post.likedByAvatars[0]),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (post.likedByAvatars.isNotEmpty)
+                  const SizedBox(width: AppConstants.paddingXS),
+                Flexible(
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: AppConstants.fontSizeM,
+                        color: textColor,
+                        height: 1.4,
+                      ),
+                      children: [
+                        const TextSpan(text: 'Liked by '),
+                        TextSpan(
+                          text: post.likedByUser!,
+                          style: const TextStyle(
+                              fontWeight: AppConstants.fontWeightSemiBold),
+                        ),
+                        const TextSpan(text: ' and others'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: AppConstants.paddingXS),
+          if (post.likedByUser != null && post.likedByUser!.isNotEmpty)
+            const SizedBox(height: AppConstants.paddingXS),
           // View all comments
           if (post.commentsCount > 0)
             GestureDetector(
@@ -119,10 +159,11 @@ class PostMeta extends StatelessWidget {
                 ),
               ),
             ),
-          const SizedBox(height: AppConstants.paddingXS),
-          // Timestamp
+          if (post.commentsCount > 0)
+            const SizedBox(height: AppConstants.paddingXS),
+          // Timestamp — lowercase
           Text(
-            post.timeAgo.toUpperCase(),
+            post.timeAgo,
             style: TextStyle(
               fontSize: AppConstants.fontSizeXS,
               color: subColor,
@@ -130,6 +171,40 @@ class PostMeta extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _LikedAvatar extends StatelessWidget {
+  final String url;
+  const _LikedAvatar({required this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      width: 18,
+      height: 18,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+          width: 1.5,
+        ),
+      ),
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: url,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Container(
+            color: isDark ? AppColors.darkPlaceholder : AppColors.lightPlaceholder,
+          ),
+          errorWidget: (context, url, error) => Container(
+            color: isDark ? AppColors.darkPlaceholder : AppColors.lightPlaceholder,
+            child: const Icon(Icons.person, size: 10, color: Colors.grey),
+          ),
+        ),
       ),
     );
   }

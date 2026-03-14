@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../app/colors/app_colors.dart';
@@ -22,9 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _placeholderScreens = const [
     SizedBox.shrink(), // Home — handled separately
+    ComingSoonScreen(label: 'Reels', icon: Icons.play_circle_outline),
+    ComingSoonScreen(label: 'Create', icon: Icons.add_box_outlined),
     ComingSoonScreen(label: 'Search', icon: Icons.search),
-    ComingSoonScreen(label: 'Reels', icon: Icons.movie_creation_outlined),
-    ComingSoonScreen(label: 'Shop', icon: Icons.shopping_bag_outlined),
     ComingSoonScreen(label: 'Profile', icon: Icons.person_outline),
   ];
 
@@ -90,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
           unselectedItemColor:
               isDark ? AppColors.darkIcon : AppColors.lightIcon,
           items: [
+            // Home
             BottomNavigationBarItem(
               icon: Icon(
                 _selectedIndex == 0 ? Icons.home : Icons.home_outlined,
@@ -97,6 +99,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               label: 'Home',
             ),
+            // Reels — outlined circle play button
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.play_circle_outline,
+                size: AppConstants.bottomNavIconSize,
+              ),
+              label: 'Reels',
+            ),
+            // Create / Add — outlined plus circle
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add_circle_outline,
+                size: AppConstants.bottomNavIconSize,
+              ),
+              label: 'Create',
+            ),
+            // Search
             const BottomNavigationBarItem(
               icon: Icon(
                 Icons.search,
@@ -104,24 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               label: 'Search',
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add_box_outlined,
-                size: AppConstants.bottomNavIconSize,
-              ),
-              label: 'Reels',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.movie_creation_outlined,
-                size: AppConstants.bottomNavIconSize,
-              ),
-              label: 'Shop',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_outline,
-                size: AppConstants.bottomNavIconSize,
+            // Profile — small avatar circle
+            BottomNavigationBarItem(
+              icon: _ProfileNavAvatar(
+                isSelected: _selectedIndex == 4,
+                isDark: isDark,
               ),
               label: 'Profile',
             ),
@@ -242,5 +248,44 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
     return oldDelegate.height != height || oldDelegate.child != child;
+  }
+}
+
+class _ProfileNavAvatar extends StatelessWidget {
+  final bool isSelected;
+  final bool isDark;
+
+  const _ProfileNavAvatar({required this.isSelected, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    const avatarUrl = 'https://i.pravatar.cc/150?img=15';
+    return Container(
+      width: AppConstants.bottomNavIconSize,
+      height: AppConstants.bottomNavIconSize,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: isSelected
+            ? Border.all(
+                color: isDark ? AppColors.darkText : AppColors.lightText,
+                width: 2,
+              )
+            : null,
+      ),
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: avatarUrl,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Container(
+            color: isDark ? AppColors.darkPlaceholder : AppColors.lightPlaceholder,
+          ),
+          errorWidget: (context, url, error) => Icon(
+            Icons.person_outline,
+            size: AppConstants.bottomNavIconSize,
+            color: isDark ? AppColors.darkIcon : AppColors.lightIcon,
+          ),
+        ),
+      ),
+    );
   }
 }

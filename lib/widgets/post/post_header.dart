@@ -23,10 +23,10 @@ class PostHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Avatar
+          // Avatar — plain circle, no gradient ring
           _buildAvatar(isDark),
           const SizedBox(width: AppConstants.paddingS),
-          // Username + location
+          // Username + audio/location subtitle
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,12 +34,15 @@ class PostHeader extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      post.user.username,
-                      style: TextStyle(
-                        fontSize: AppConstants.fontSizeL,
-                        fontWeight: AppConstants.fontWeightSemiBold,
-                        color: textColor,
+                    Flexible(
+                      child: Text(
+                        post.user.username,
+                        style: TextStyle(
+                          fontSize: AppConstants.fontSizeL,
+                          fontWeight: AppConstants.fontWeightSemiBold,
+                          color: textColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     if (post.user.isVerified) ...[
@@ -52,21 +55,14 @@ class PostHeader extends StatelessWidget {
                     ],
                   ],
                 ),
-                if (post.location != null && post.location!.isNotEmpty)
-                  Text(
-                    post.location!,
-                    style: TextStyle(
-                      fontSize: AppConstants.fontSizeXS,
-                      color: subTextColor,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                // Subtitle: audio info OR location
+                _buildSubtitle(subTextColor),
               ],
             ),
           ),
-          // Follow button (for non-following users)
+          // Follow button (outlined style, for non-following users)
           if (!post.user.isFollowing) ...[
+            const SizedBox(width: AppConstants.paddingS),
             GestureDetector(
               onTap: () => CustomSnackbar.show('Follow feature coming soon'),
               child: Container(
@@ -75,14 +71,17 @@ class PostHeader extends StatelessWidget {
                   vertical: AppConstants.paddingXS,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.followButtonBg,
-                  borderRadius:
-                      BorderRadius.circular(AppConstants.radiusS),
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(AppConstants.radiusS),
+                  border: Border.all(
+                    color: isDark ? AppColors.darkSubText : AppColors.lightSubText,
+                    width: 1,
+                  ),
                 ),
-                child: const Text(
+                child: Text(
                   'Follow',
                   style: TextStyle(
-                    color: AppColors.followButtonText,
+                    color: textColor,
                     fontSize: AppConstants.fontSizeS,
                     fontWeight: AppConstants.fontWeightSemiBold,
                   ),
@@ -109,32 +108,60 @@ class PostHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar(bool isDark) {
-    return Container(
-      width: AppConstants.avatarSizePost + 6,
-      height: AppConstants.avatarSizePost + 6,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          colors: AppColors.storyRingGradient,
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-        ),
+  Widget _buildSubtitle(Color subTextColor) {
+    final hasAudio = post.audioInfo != null && post.audioInfo!.isNotEmpty;
+    final hasLocation = post.location != null && post.location!.isNotEmpty;
+
+    if (!hasAudio && !hasLocation) return const SizedBox.shrink();
+
+    if (hasAudio) {
+      return Row(
+        children: [
+          Icon(Icons.music_note, size: 11, color: subTextColor),
+          const SizedBox(width: 2),
+          Flexible(
+            child: Text(
+              post.audioInfo!,
+              style: TextStyle(
+                fontSize: AppConstants.fontSizeXS,
+                color: subTextColor,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Text(
+      post.location!,
+      style: TextStyle(
+        fontSize: AppConstants.fontSizeXS,
+        color: subTextColor,
       ),
-      padding: const EdgeInsets.all(1.5),
-      child: ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: post.user.avatarUrl,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Widget _buildAvatar(bool isDark) {
+    return ClipOval(
+      child: CachedNetworkImage(
+        imageUrl: post.user.avatarUrl,
+        width: AppConstants.avatarSizePost,
+        height: AppConstants.avatarSizePost,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
           width: AppConstants.avatarSizePost,
           height: AppConstants.avatarSizePost,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => Container(
-            color: Colors.grey.shade300,
-          ),
-          errorWidget: (context, url, error) => Container(
-            color: Colors.grey.shade300,
-            child: const Icon(Icons.person, color: Colors.grey, size: 16),
-          ),
+          color: isDark ? AppColors.darkPlaceholder : AppColors.lightPlaceholder,
+        ),
+        errorWidget: (context, url, error) => Container(
+          width: AppConstants.avatarSizePost,
+          height: AppConstants.avatarSizePost,
+          color: isDark ? AppColors.darkPlaceholder : AppColors.lightPlaceholder,
+          child: const Icon(Icons.person, color: Colors.grey, size: 16),
         ),
       ),
     );

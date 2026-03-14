@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../app/colors/app_colors.dart';
 import '../../app/constants/app_constants.dart';
 import '../common/custom_snackbar.dart';
@@ -13,6 +14,8 @@ class InstagramAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final dividerColor = isDark ? AppColors.darkDivider : AppColors.lightDivider;
+    final iconColor = isDark ? AppColors.darkIcon : AppColors.lightIcon;
+    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
 
     return Container(
       decoration: BoxDecoration(
@@ -27,43 +30,61 @@ class InstagramAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: AppConstants.appBarHeight,
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.paddingL,
+              horizontal: AppConstants.paddingM,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // ── Instagram Logo ──
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: AppColors.instagramGradient,
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ).createShader(bounds),
-                  child: const Text(
-                    'Instagram',
-                    style: TextStyle(
-                      fontSize: AppConstants.appBarLogoFontSize,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.white,
-                      letterSpacing: -0.5,
-                      height: 1.0,
-                    ),
+                // ── Plus / Create icon (left) ──
+                _AppBarIconButton(
+                  icon: Icons.add,
+                  iconSize: 28,
+                  onTap: () => CustomSnackbar.show('Create coming soon'),
+                  color: iconColor,
+                ),
+                const Spacer(),
+                // ── Instagram Script Logo (center) ──
+                Text(
+                  'Instagram',
+                  style: GoogleFonts.pacifico(
+                    fontSize: AppConstants.appBarLogoFontSize,
+                    color: textColor,
+                    height: 1.0,
                   ),
                 ),
                 const Spacer(),
-                // ── Notification Bell ──
-                _AppBarIconButton(
-                  icon: Icons.favorite_border_rounded,
-                  onTap: () => CustomSnackbar.show('Notifications coming soon'),
-                  isDark: isDark,
+                // ── Notification Heart ──
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    _AppBarIconButton(
+                      icon: Icons.favorite_border,
+                      iconSize: 26,
+                      onTap: () => CustomSnackbar.show('Notifications coming soon'),
+                      color: iconColor,
+                    ),
+                    // Red dot badge
+                    Positioned(
+                      top: 2,
+                      right: 2,
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          color: AppColors.likeRed,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: AppConstants.paddingS),
+                const SizedBox(width: AppConstants.paddingXS),
                 // ── DM Paper Plane ──
                 _AppBarIconButton(
                   icon: Icons.send_outlined,
+                  iconSize: 24,
                   onTap: () => CustomSnackbar.show('Messages coming soon'),
-                  isDark: isDark,
+                  color: iconColor,
                 ),
               ],
             ),
@@ -76,13 +97,15 @@ class InstagramAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _AppBarIconButton extends StatelessWidget {
   final IconData icon;
+  final double iconSize;
   final VoidCallback onTap;
-  final bool isDark;
+  final Color color;
 
   const _AppBarIconButton({
     required this.icon,
+    required this.iconSize,
     required this.onTap,
-    required this.isDark,
+    required this.color,
   });
 
   @override
@@ -94,8 +117,8 @@ class _AppBarIconButton extends StatelessWidget {
         padding: const EdgeInsets.all(AppConstants.paddingXS),
         child: Icon(
           icon,
-          size: 26,
-          color: isDark ? AppColors.darkIcon : AppColors.lightIcon,
+          size: iconSize,
+          color: color,
         ),
       ),
     );

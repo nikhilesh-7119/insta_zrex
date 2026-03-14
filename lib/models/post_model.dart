@@ -11,6 +11,9 @@ class PostModel {
   final bool isLiked;
   final bool isSaved;
   final String? location;
+  final String? audioInfo;
+  final String? likedByUser;
+  final List<String> likedByAvatars;
 
   const PostModel({
     required this.id,
@@ -23,6 +26,9 @@ class PostModel {
     this.isLiked = false,
     this.isSaved = false,
     this.location,
+    this.audioInfo,
+    this.likedByUser,
+    this.likedByAvatars = const [],
   });
 
   PostModel copyWith({
@@ -36,6 +42,9 @@ class PostModel {
     bool? isLiked,
     bool? isSaved,
     String? location,
+    String? audioInfo,
+    String? likedByUser,
+    List<String>? likedByAvatars,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -48,6 +57,9 @@ class PostModel {
       isLiked: isLiked ?? this.isLiked,
       isSaved: isSaved ?? this.isSaved,
       location: location ?? this.location,
+      audioInfo: audioInfo ?? this.audioInfo,
+      likedByUser: likedByUser ?? this.likedByUser,
+      likedByAvatars: likedByAvatars ?? this.likedByAvatars,
     );
   }
 
@@ -62,6 +74,9 @@ class PostModel {
         'isLiked': isLiked,
         'isSaved': isSaved,
         'location': location,
+        'audioInfo': audioInfo,
+        'likedByUser': likedByUser,
+        'likedByAvatars': likedByAvatars,
       };
 
   factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
@@ -75,5 +90,10 @@ class PostModel {
         isLiked: json['isLiked'] as bool? ?? false,
         isSaved: json['isSaved'] as bool? ?? false,
         location: json['location'] as String?,
+        audioInfo: json['audioInfo'] as String?,
+        likedByUser: json['likedByUser'] as String?,
+        likedByAvatars: json['likedByAvatars'] != null
+            ? List<String>.from(json['likedByAvatars'] as List)
+            : const [],
       );
 }

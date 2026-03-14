@@ -22,6 +22,9 @@ dependencies:
   # Shimmer / Skeleton Loading
   skeletonizer: ^2.1.3
 
+  # Google Fonts (for Instagram script wordmark)
+  google_fonts: ^6.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
