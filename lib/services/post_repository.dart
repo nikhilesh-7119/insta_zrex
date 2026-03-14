@@ -211,6 +211,8 @@ class PostRepository {
       caption: caption,
       likesCount: 1000 + (absoluteIndex * 1337) % 49000,
       commentsCount: 10 + (absoluteIndex * 73) % 990,
+      repostsCount: (absoluteIndex * 43) % 500,
+      sharesCount: 50 + (absoluteIndex * 97) % 450,
       timeAgo: timeAgo,
       isLiked: false,
       isSaved: false,

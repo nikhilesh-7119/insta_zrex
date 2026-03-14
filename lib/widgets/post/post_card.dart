@@ -40,10 +40,20 @@ class PostCard extends StatelessWidget {
           onSave: () => controller.toggleSave(post.id),
         ),
 
-        // Likes count + caption
-        LikesCount(likesCount: post.likesCount),
-        const SizedBox(height: AppConstants.paddingXS),
+        // Caption
         PostCaption(post: post),
+        const SizedBox(height: AppConstants.paddingXS),
+        // Time ago
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingM),
+          child: Text(
+            post.timeAgo,
+            style: TextStyle(
+              fontSize: AppConstants.fontSizeXS,
+              color: isDark ? AppColors.darkSubText : AppColors.lightSubText,
+            ),
+          ),
+        ),
         const SizedBox(height: AppConstants.paddingM),
 
         // Divider

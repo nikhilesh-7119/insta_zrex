@@ -7,6 +7,8 @@ class PostModel {
   final String caption;
   final int likesCount;
   final int commentsCount;
+  final int repostsCount;
+  final int sharesCount;
   final String timeAgo;
   final bool isLiked;
   final bool isSaved;
@@ -22,6 +24,8 @@ class PostModel {
     required this.caption,
     required this.likesCount,
     required this.commentsCount,
+    this.repostsCount = 0,
+    this.sharesCount = 0,
     required this.timeAgo,
     this.isLiked = false,
     this.isSaved = false,
@@ -38,6 +42,8 @@ class PostModel {
     String? caption,
     int? likesCount,
     int? commentsCount,
+    int? repostsCount,
+    int? sharesCount,
     String? timeAgo,
     bool? isLiked,
     bool? isSaved,
@@ -53,6 +59,8 @@ class PostModel {
       caption: caption ?? this.caption,
       likesCount: likesCount ?? this.likesCount,
       commentsCount: commentsCount ?? this.commentsCount,
+      repostsCount: repostsCount ?? this.repostsCount,
+      sharesCount: sharesCount ?? this.sharesCount,
       timeAgo: timeAgo ?? this.timeAgo,
       isLiked: isLiked ?? this.isLiked,
       isSaved: isSaved ?? this.isSaved,
@@ -70,6 +78,8 @@ class PostModel {
         'caption': caption,
         'likesCount': likesCount,
         'commentsCount': commentsCount,
+        'repostsCount': repostsCount,
+        'sharesCount': sharesCount,
         'timeAgo': timeAgo,
         'isLiked': isLiked,
         'isSaved': isSaved,
@@ -86,6 +96,8 @@ class PostModel {
         caption: json['caption'] as String,
         likesCount: json['likesCount'] as int,
         commentsCount: json['commentsCount'] as int,
+        repostsCount: json['repostsCount'] as int? ?? 0,
+        sharesCount: json['sharesCount'] as int? ?? 0,
         timeAgo: json['timeAgo'] as String,
         isLiked: json['isLiked'] as bool? ?? false,
         isSaved: json['isSaved'] as bool? ?? false,

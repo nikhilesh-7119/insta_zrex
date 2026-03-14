@@ -16,10 +16,23 @@ class PostActions extends StatelessWidget {
     required this.onSave,
   });
 
+  String _formatCount(int count) {
+    if (count >= 1000000) {
+      return '${(count / 1000000).toStringAsFixed(1)}M';
+    } else if (count >= 1000) {
+      final k = count / 1000;
+      return k == k.truncateToDouble()
+          ? '${k.toInt()}K'
+          : '${k.toStringAsFixed(1)}K';
+    }
+    return count.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final iconColor = isDark ? AppColors.darkActionIcon : AppColors.lightActionIcon;
+    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -28,7 +41,7 @@ class PostActions extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Like icon
+          // Like icon + count
           _ActionButton(
             onTap: onLike,
             child: AnimatedSwitcher(
@@ -45,7 +58,12 @@ class PostActions extends StatelessWidget {
               ),
             ),
           ),
-          // Comment icon
+          Text(
+            _formatCount(post.likesCount),
+            style: TextStyle(fontSize: AppConstants.fontSizeM, color: textColor),
+          ),
+          const SizedBox(width: AppConstants.paddingM),
+          // Comment icon + count
           _ActionButton(
             onTap: () => CustomSnackbar.show('Comments coming soon'),
             child: Icon(
@@ -54,7 +72,26 @@ class PostActions extends StatelessWidget {
               color: iconColor,
             ),
           ),
-          // Share icon — hollow triangle arrow (Instagram style)
+          Text(
+            _formatCount(post.commentsCount),
+            style: TextStyle(fontSize: AppConstants.fontSizeM, color: textColor),
+          ),
+          const SizedBox(width: AppConstants.paddingM),
+          // Repost icon + count
+          _ActionButton(
+            onTap: () => CustomSnackbar.show('Repost coming soon'),
+            child: Icon(
+              Icons.repeat,
+              size: AppConstants.postActionsIconSize,
+              color: iconColor,
+            ),
+          ),
+          Text(
+            _formatCount(post.repostsCount),
+            style: TextStyle(fontSize: AppConstants.fontSizeM, color: textColor),
+          ),
+          const SizedBox(width: AppConstants.paddingM),
+          // Share icon + count
           _ActionButton(
             onTap: () => CustomSnackbar.show('Share coming soon'),
             child: Icon(
@@ -62,6 +99,10 @@ class PostActions extends StatelessWidget {
               size: AppConstants.postActionsIconSize,
               color: iconColor,
             ),
+          ),
+          Text(
+            _formatCount(post.sharesCount),
+            style: TextStyle(fontSize: AppConstants.fontSizeM, color: textColor),
           ),
           const Spacer(),
           // Save icon
