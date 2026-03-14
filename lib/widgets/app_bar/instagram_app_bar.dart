@@ -78,14 +78,6 @@ class InstagramAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: AppConstants.paddingXS),
-                // ── DM Paper Plane ──
-                _AppBarIconButton(
-                  icon: Icons.send_outlined,
-                  iconSize: 24,
-                  onTap: () => CustomSnackbar.show('Messages coming soon'),
-                  color: iconColor,
-                ),
               ],
             ),
           ),

@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _placeholderScreens = const [
     SizedBox.shrink(), // Home — handled separately
     ComingSoonScreen(label: 'Reels', icon: Icons.play_circle_outline),
-    ComingSoonScreen(label: 'Create', icon: Icons.add_box_outlined),
+    ComingSoonScreen(label: 'Messages', icon: Icons.near_me_outlined),
     ComingSoonScreen(label: 'Search', icon: Icons.search),
     ComingSoonScreen(label: 'Profile', icon: Icons.person_outline),
   ];
@@ -107,13 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               label: 'Reels',
             ),
-            // Create / Add — outlined plus circle
+            // DM / Messages — hollow triangle arrow
             const BottomNavigationBarItem(
               icon: Icon(
-                Icons.add_circle_outline,
+                Icons.near_me_outlined,
                 size: AppConstants.bottomNavIconSize,
               ),
-              label: 'Create',
+              label: 'Messages',
             ),
             // Search
             const BottomNavigationBarItem(

@@ -40,8 +40,8 @@ class PostCard extends StatelessWidget {
           onSave: () => controller.toggleSave(post.id),
         ),
 
-        // "Liked by username and others"  +  caption
-        PostMeta(post: post),
+        // Likes count + caption
+        LikesCount(likesCount: post.likesCount),
         const SizedBox(height: AppConstants.paddingXS),
         PostCaption(post: post),
         const SizedBox(height: AppConstants.paddingM),

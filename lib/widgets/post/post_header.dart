@@ -60,36 +60,6 @@ class PostHeader extends StatelessWidget {
               ],
             ),
           ),
-          // Follow button (outlined style, for non-following users)
-          if (!post.user.isFollowing) ...[
-            const SizedBox(width: AppConstants.paddingS),
-            GestureDetector(
-              onTap: () => CustomSnackbar.show('Follow feature coming soon'),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppConstants.paddingM,
-                  vertical: AppConstants.paddingXS,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(AppConstants.radiusS),
-                  border: Border.all(
-                    color: isDark ? AppColors.darkSubText : AppColors.lightSubText,
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  'Follow',
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: AppConstants.fontSizeS,
-                    fontWeight: AppConstants.fontWeightSemiBold,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: AppConstants.paddingS),
-          ],
           // Options menu
           GestureDetector(
             onTap: () => CustomSnackbar.show('Post options coming soon'),
@@ -97,7 +67,7 @@ class PostHeader extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(AppConstants.paddingXS),
               child: Icon(
-                Icons.more_horiz,
+                Icons.more_vert,
                 size: 22,
                 color: isDark ? AppColors.darkIcon : AppColors.lightIcon,
               ),

@@ -35,7 +35,7 @@ class AppConstants {
   static const double storyRingGap = 2.0;
 
   // Post
-  static const double postImageAspectRatio = 4 / 5;
+  static const double postImageAspectRatio = 1 / 1;
   static const double postActionsIconSize = 24.0;
   static const double postActionsIconSizeSave = 22.0;
 

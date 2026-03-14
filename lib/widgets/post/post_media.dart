@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/colors/app_colors.dart';
 import '../../app/constants/app_constants.dart';
 import '../../models/post_model.dart';
+import '../common/custom_snackbar.dart';
 import '../zoom/pinch_zoom_overlay.dart';
 import 'carousel_widget.dart';
 
@@ -91,6 +92,27 @@ class _PostMediaState extends State<PostMedia>
                     color: Colors.grey,
                     size: 40,
                   ),
+                ),
+              ),
+            ),
+          ),
+          // Mute button — bottom-right inside image
+          Positioned(
+            bottom: AppConstants.paddingM,
+            right: AppConstants.paddingM,
+            child: GestureDetector(
+              onTap: () => CustomSnackbar.show('Sound coming soon'),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: Colors.black.withAlpha(153),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.volume_up,
+                  color: Colors.white,
+                  size: 16,
                 ),
               ),
             ),

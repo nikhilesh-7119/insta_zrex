@@ -16,23 +16,10 @@ class PostActions extends StatelessWidget {
     required this.onSave,
   });
 
-  String _formatCount(int count) {
-    if (count >= 1000000) {
-      return '${(count / 1000000).toStringAsFixed(1)}M';
-    } else if (count >= 1000) {
-      final k = count / 1000;
-      return k == k.truncateToDouble()
-          ? '${k.toInt()}K'
-          : '${k.toStringAsFixed(1)}K';
-    }
-    return count.toString();
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final iconColor = isDark ? AppColors.darkActionIcon : AppColors.lightActionIcon;
-    final textColor = isDark ? AppColors.darkText : AppColors.lightText;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -41,7 +28,7 @@ class PostActions extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Like icon + count
+          // Like icon
           _ActionButton(
             onTap: onLike,
             child: AnimatedSwitcher(
@@ -58,16 +45,7 @@ class PostActions extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppConstants.paddingXS),
-          Text(
-            _formatCount(post.likesCount),
-            style: TextStyle(
-              fontSize: AppConstants.fontSizeM,
-              color: textColor,
-            ),
-          ),
-          const SizedBox(width: AppConstants.paddingL),
-          // Comment icon + count
+          // Comment icon
           _ActionButton(
             onTap: () => CustomSnackbar.show('Comments coming soon'),
             child: Icon(
@@ -76,25 +54,13 @@ class PostActions extends StatelessWidget {
               color: iconColor,
             ),
           ),
-          const SizedBox(width: AppConstants.paddingXS),
-          Text(
-            _formatCount(post.commentsCount),
-            style: TextStyle(
-              fontSize: AppConstants.fontSizeM,
-              color: textColor,
-            ),
-          ),
-          const SizedBox(width: AppConstants.paddingL),
-          // Share icon — triangular paper plane style
+          // Share icon — hollow triangle arrow (Instagram style)
           _ActionButton(
             onTap: () => CustomSnackbar.show('Share coming soon'),
-            child: Transform.rotate(
-              angle: -0.4,
-              child: Icon(
-                Icons.navigation_outlined,
-                size: AppConstants.postActionsIconSize,
-                color: iconColor,
-              ),
+            child: Icon(
+              Icons.near_me_outlined,
+              size: AppConstants.postActionsIconSize,
+              color: iconColor,
             ),
           ),
           const Spacer(),
