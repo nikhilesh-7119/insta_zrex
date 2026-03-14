@@ -79,7 +79,7 @@ class StoryItem extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              child: const Icon(Icons.add, size: 12, color: Colors.white),
+              child: const Icon(Icons.add, size: 12, color: AppColors.iconOnDark),
             ),
           ),
       ],

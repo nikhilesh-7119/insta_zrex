@@ -85,12 +85,12 @@ class _CarouselWidgetState extends State<CarouselWidget> {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: Colors.black.withAlpha(153),
+                color: AppColors.muteButtonBg,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.volume_up,
-                color: Colors.white,
+                color: AppColors.iconOnDark,
                 size: 16,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../app/colors/app_colors.dart';
 import '../../app/constants/app_constants.dart';
 
 class PinchZoomOverlay extends StatefulWidget {
@@ -202,7 +203,7 @@ class _ZoomOverlayContentState extends State<_ZoomOverlayContent>
             Positioned.fill(
               child: GestureDetector(
                 onTap: widget.onClose,
-                child: Container(color: Colors.black.withAlpha(217)),
+                child: Container(color: AppColors.zoomOverlayBg),
               ),
             ),
             // Zoomed image

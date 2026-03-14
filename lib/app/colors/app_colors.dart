@@ -63,4 +63,16 @@ class AppColors {
   // Snackbar
   static const Color snackbarBg = Color(0xFF262626);
   static const Color snackbarText = Color(0xFFFFFFFF);
+
+  // Zoom overlay background
+  static const Color zoomOverlayBg = Color(0xD9000000); // black with alpha 217
+
+  // Mute button background
+  static const Color muteButtonBg = Color(0x99000000); // black with alpha 153
+
+  // Icon on dark surface
+  static const Color iconOnDark = Color(0xFFFFFFFF);
+
+  // Double-tap heart shadow
+  static const Color heartShadow = Color(0x61000000); // black38
 }

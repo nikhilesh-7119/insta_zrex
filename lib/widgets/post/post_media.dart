@@ -106,12 +106,12 @@ class _PostMediaState extends State<PostMedia>
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(153),
+                  color: AppColors.muteButtonBg,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.volume_up,
-                  color: Colors.white,
+                  color: AppColors.iconOnDark,
                   size: 16,
                 ),
               ),
@@ -125,11 +125,11 @@ class _PostMediaState extends State<PostMedia>
                 scale: _heartAnim.value,
                 child: const Icon(
                   Icons.favorite,
-                  color: Colors.white,
+                  color: AppColors.iconOnDark,
                   size: 90,
                   shadows: [
                     Shadow(
-                      color: Colors.black38,
+                      color: AppColors.heartShadow,
                       blurRadius: 12,
                     ),
                   ],
